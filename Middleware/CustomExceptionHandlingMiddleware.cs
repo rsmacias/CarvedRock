@@ -1,5 +1,4 @@
 using System.Net;
-using Microsoft.Extensions.Logging;
 
 namespace CarvedRock.Api.Middleware;
 

@@ -1,6 +1,6 @@
 using CarvedRock.Api.Interfaces;
 using CarvedRock.Api.Domain;
-using CarvedRock.Api.Middleware;
+using CarvedRock.Api.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,7 +15,7 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-app.UseMiddleware<CustomExceptionHandlingMiddleware>();
+app.UseCustomExceptionHandler();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
