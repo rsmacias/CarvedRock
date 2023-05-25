@@ -5,19 +5,24 @@ namespace CarvedRock.Api.Domain;
 
 public class ProductLogic : IProductLogic {
 
+    private readonly ILogger<ProductLogic> _logger;
     private readonly List<string> _validCategories = new List<string> { "all", "boots", "climbing gear", "kayaks" };
 
-    public ProductLogic() {
-        
+    public ProductLogic(ILogger<ProductLogic> logger) {
+        _logger = logger;
     }
 
     public IEnumerable<Product> GetProductForCategory(string category) {
 
+        _logger.LogInformation("Starting logic to get products for {category}", category);
+
         if (!_validCategories.Any(c => string.Equals(category, c, StringComparison.InvariantCultureIgnoreCase))) {
+            // invalid category -- bad request
             throw new ApplicationException($"Unrecognized category: {category}. Valid categories are: [{string.Join(", ", _validCategories)}]");
         }
 
         if (string.Equals(category, "kayaks", StringComparison.InvariantCultureIgnoreCase)) {
+            // simulate database error or real technical error like not implemented exception
             throw new Exception("Not implemented! No kayaks have been defined in 'database' yet!!!");
         }
 
