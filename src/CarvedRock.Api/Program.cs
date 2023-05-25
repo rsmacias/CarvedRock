@@ -10,6 +10,10 @@ Log.Logger = new LoggerConfiguration()
     .Enrich.FromLogContext()
     .Enrich.WithMachineName()
     .Enrich.WithProperty("Assembly", name)
+    // https://github.com/serilog/serilog/wiki/provided-sinks
+    // https://datalust.co/seq
+    // https://docs.datalust.co/docs/getting-started-with-docker
+    .WriteTo.Seq(serverUrl: "http://host.docker.internal:5341")
     .WriteTo.Console()
     .CreateLogger();
 
@@ -37,6 +41,8 @@ try {
         app.UseSwagger();
         app.UseSwaggerUI();
     }
+
+    app.UseCustomRequestLogging();
 
     app.UseHttpsRedirection();
 
