@@ -1,10 +1,33 @@
+using Serilog;
 using CarvedRock.OrderProcessor;
 
-IHost host = Host.CreateDefaultBuilder(args)
-    .ConfigureServices(services =>
-    {
-        services.AddHostedService<Worker>();
-    })
-    .Build();
+var name = typeof(Program).Assembly.GetName().Name;
 
-host.Run();
+Log.Logger = new LoggerConfiguration()
+    .MinimumLevel.Override("Microsoft", Serilog.Events.LogEventLevel.Warning)
+    .Enrich.FromLogContext()
+    .Enrich.WithMachineName()
+    .Enrich.WithProperty("Assembly", name)
+    .WriteTo.Seq(serverUrl: "http://host.docker.internal:5341")
+    .WriteTo.Console()
+    .CreateLogger();
+
+try {
+
+    Log.Information("Starting host");
+
+    IHost host = Host.CreateDefaultBuilder(args)
+        .ConfigureServices(services =>
+        {
+            services.AddHostedService<Worker>();
+        })
+        .UseSerilog()  // <-- Add Serilog support
+        .Build();
+
+    host.Run();
+
+} catch (Exception ex) {
+    Log.Fatal(ex, "Host terminated unexpectedly");
+} finally {
+    Log.CloseAndFlush();
+}
