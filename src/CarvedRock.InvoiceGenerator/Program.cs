@@ -21,6 +21,15 @@ try {
         .AddEnvironmentVariables()
         .Build();
 
+    var connectionString = _config.GetConnectionString("Db");
+    var simpleProperty = _config.GetValue<string>("SimpleProperty");
+    var nestedProp = _config.GetValue<string>("Inventory:NestedProperty");
+
+    Log.ForContext("ConnectionString", connectionString)
+       .ForContext("SimpleProperty", simpleProperty)
+       .ForContext("Inventory:NestedProperty", nestedProp)
+       .Information("Loaded console configuration!");
+
     Log.ForContext("Args", args)
        .Information("Starting program...");
 
