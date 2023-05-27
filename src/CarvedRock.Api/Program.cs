@@ -21,6 +21,19 @@ try {
 
     var builder = WebApplication.CreateBuilder(args);
 
+    //var connectionString = "hello"; // ConnectionStrings:Db
+    var connectionString = builder.Configuration.GetConnectionString("Db");
+    //var simpleProperty = "hey"; // SimpleProperty
+    var simpleProperty = builder.Configuration.GetValue<string>("SimpleProperty");
+    //var nestedProp = "here we go"; // Inventory->NestedProperty
+    var nestedProp = builder.Configuration.GetValue<string>("Inventory:NestedProperty");
+
+    Log.ForContext("ConnectionString", connectionString)
+       .ForContext("SimpleProperty", simpleProperty)
+       .ForContext("Inventory:NestedProperty", nestedProp)
+       .Information("Loaded configuration!");
+
+    
     builder.Host.UseSerilog(); // <-- Add Serilog support
 
     // Add services to the container.
