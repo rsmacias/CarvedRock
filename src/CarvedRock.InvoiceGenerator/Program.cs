@@ -1,7 +1,8 @@
 ﻿using Serilog;
+using Microsoft.Extensions.Configuration;
 
 // See https://aka.ms/new-console-template for more information
-
+IConfiguration _config;
 var name = typeof(Program).Assembly.GetName().Name;
 
 Log.Logger = new LoggerConfiguration()
@@ -13,6 +14,13 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 try {
+    // http://bit.ly/default-builder-source
+    _config = new ConfigurationBuilder()
+        .SetBasePath(Directory.GetParent(AppContext.BaseDirectory)!.FullName)
+        .AddJsonFile("appsettings.json", false)
+        .AddEnvironmentVariables()
+        .Build();
+
     Log.ForContext("Args", args)
        .Information("Starting program...");
 
