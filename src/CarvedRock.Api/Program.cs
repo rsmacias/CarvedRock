@@ -30,6 +30,10 @@ try {
        .ForContext("Inventory:NestedProperty", nestedProp)
        .Information("Loaded configuration!");
 
+    var dbgView = (builder.Configuration as IConfigurationRoot).GetDebugView();
+    Log.ForContext("ConfigurationDebugView", dbgView)
+        .Information("Configuration dump.");
+
     
     builder.Host.UseSerilog(); // <-- Add Serilog support
 
