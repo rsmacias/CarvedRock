@@ -1,0 +1,137 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "docker-build",
+            "label": "docker-build: debug",
+            "dependsOn": [
+                "build"
+            ],
+            "dockerBuild": {
+                "tag": "hellocodeapi:dev",
+                "target": "base",
+                "dockerfile": "${workspaceFolder}/src/CarvedRock.Api/Dockerfile",
+                "context": "${workspaceFolder}/src/CarvedRock.Api",
+                "pull": true
+            },
+            "netCore": {
+                "appProject": "${workspaceFolder}/src/CarvedRock.Api/Hellocode.Api.csproj"
+            }
+        },
+        {
+            "type": "docker-build",
+            "label": "docker-build: release",
+            "dependsOn": [
+                "build"
+            ],
+            "dockerBuild": {
+                "tag": "hellocodeapi:latest",
+                "dockerfile": "${workspaceFolder}/src/CarvedRock.Api/Dockerfile",
+                "context": "${workspaceFolder}/src/CarvedRock.Api",
+                "platform": "linux/amd64",
+                "pull": true
+            },
+            "netCore": {
+                "appProject": "${workspaceFolder}/src/CarvedRock.Api/Hellocode.Api.csproj"
+            }
+        },
+        {
+            "type": "docker-run",
+            "label": "docker-run: debug",
+            "dependsOn": [
+                "docker-build: debug"
+            ],
+            "dockerRun": {},
+            "netCore": {
+                "appProject": "${workspaceFolder}/src/CarvedRock.Api/Hellocode.Api.csproj",
+                "enableDebugging": true
+            }
+        },
+        {
+            "type": "docker-run",
+            "label": "docker-run: release",
+            "dependsOn": [
+                "docker-build: release"
+            ],
+            "dockerRun": {},
+            "netCore": {
+                "appProject": "${workspaceFolder}/src/CarvedRock.Api/Hellocode.Api.csproj"
+            }
+        },
+
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/CarvedRock.OrderProcessor/CarvedRock.OrderProcessor.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/src/CarvedRock.OrderProcessor/CarvedRock.OrderProcessor.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "--project",
+                "${workspaceFolder}/src/CarvedRock.OrderProcessor/CarvedRock.OrderProcessor.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+
+
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/src/CarvedRock.InvoiceGenerator/CarvedRock.InvoiceGenerator.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "publish",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "publish",
+                "${workspaceFolder}/src/CarvedRock.InvoiceGenerator/CarvedRock.InvoiceGenerator.csproj",
+                "/property:GenerateFullPaths=true",
+                "/consoleloggerparameters:NoSummary"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "watch",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "watch",
+                "run",
+                "--project",
+                "${workspaceFolder}/src/CarvedRock.InvoiceGenerator/CarvedRock.InvoiceGenerator.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}

@@ -1,0 +1,87 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "CarvedRock.Api Launch (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/CarvedRock.Api/bin/Debug/net7.0/Hellocode.Api.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/CarvedRock.Api",
+            "stopAtEntry": false,
+            "serverReadyAction": {
+                "action": "openExternally",
+                "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            },
+            "launchBrowser": {
+                "enabled": true,
+                "args": "${auto-detect-url}/swagger",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start ${auto-detect-url}/swagger"
+                }
+            },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/src/CarvedRock.Api/Views"
+            }
+        },
+        {
+            "name": "CarvedRock.InvoiceGenerator Launch (console)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/CarvedRock.InvoiceGenerator/bin/Debug/net7.0/CarvedRock.InvoiceGenerator.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/CarvedRock.InvoiceGenerator",
+            "stopAtEntry": false,
+            "console": "internalConsole"
+        },
+        {
+            "name": "CarvedRock.OrderProcessor Launch (worker service)",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program": "${workspaceFolder}/src/CarvedRock.OrderProcessor/bin/Debug/net7.0/CarvedRock.OrderProcessor.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/src/CarvedRock.OrderProcessor",
+            "console": "internalConsole",
+            "stopAtEntry": false
+        },
+        {
+            "name": ".NET Core Attach",
+            "type": "coreclr",
+            "request": "attach"
+        },
+        {
+            "name": "Docker CarvedRock.OrderProcessor Launch",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "netCore": {
+                "appProject": "${workspaceFolder}/src/CarvedRock.OrderProcessor/CarvedRock.OrderProcessor.csproj"
+            }
+        },
+        {
+            "name": "Docker CarvedRock.InvoideGenerator Launch",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "netCore": {
+                "appProject": "${workspaceFolder}/src/CarvedRock.InvoideGenerator/CarvedRock.InvoideGenerator.csproj"
+            }
+        },
+        {
+            "name": "Docker CarvedRock.Api Launch",
+            "type": "docker",
+            "request": "launch",
+            "preLaunchTask": "docker-run: debug",
+            "netCore": {
+                "appProject": "${workspaceFolder}/src/CarvedRock.Api/Hellocode.Api.csproj"
+            }
+        }
+    ]
+}
