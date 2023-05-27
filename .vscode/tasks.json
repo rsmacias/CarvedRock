@@ -41,7 +41,13 @@
             "dependsOn": [
                 "docker-build: debug"
             ],
-            "dockerRun": {},
+            "dockerRun": {
+                "env": {
+                    "ASPNETCORE_ENVIRONMENT": "Development",
+                    "SimpleProperty": "fascinating-things-from-vscode",
+                    "Inventory__NestedProperty": "this-does-not-seem-possible"
+                }
+            },
             "netCore": {
                 "appProject": "${workspaceFolder}/src/CarvedRock.Api/Hellocode.Api.csproj",
                 "enableDebugging": true

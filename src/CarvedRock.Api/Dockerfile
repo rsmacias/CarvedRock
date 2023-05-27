@@ -1,6 +1,7 @@
 FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS base
 WORKDIR /app
 EXPOSE 5027
+ENV SimpleProperty="hello-from-BASE-dockerfile"
 
 ENV ASPNETCORE_URLS=http://+:5027
 
@@ -23,4 +24,5 @@ RUN dotnet publish "Hellocode.Api.csproj" -c Release -o /app/publish /p:UseAppHo
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+ENV SimpleProperty="hello-from-FINAL-dockerfile"
 ENTRYPOINT ["dotnet", "Hellocode.Api.dll"]
